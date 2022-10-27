@@ -11,9 +11,9 @@ enum aliquoteIrpef {
 }
 
 class TasseInps {
-  private aliquotaInps: Enumerator<number>;
+  private aliquotaInps: aliquoteInps;
 
-  constructor(aliquotaInps: Enumerator<number>) {
+  constructor(aliquotaInps: aliquoteInps) {
     this.aliquotaInps = aliquotaInps;
   }
 
@@ -23,9 +23,9 @@ class TasseInps {
 }
 
 class TasseIrpef {
-  private aliquotaIrpef: Enumerator<number>;
+  private aliquotaIrpef: aliquoteIrpef;
 
-  constructor(aliquotaIrpef: Enumerator<number>) {
+  constructor(aliquotaIrpef: aliquoteIrpef) {
     this.aliquotaIrpef = aliquotaIrpef;
   }
 
@@ -36,12 +36,12 @@ class TasseIrpef {
 class Lavoratore {
   //   private codredd: number;
   private redditoAnnuoLordo: number;
-  private tasseLavoratoreInps: TasseInps["getAliquotaInps"];
-  private tasseLavoratoreIrpef: TasseIrpef["getAliquotaIrpef"];
+  private tasseLavoratoreInps: TasseInps;
+  private tasseLavoratoreIrpef: TasseIrpef;
 
   //   constructor(redditoAnnuoLordo: number, tasseLavoratoreInps: TasseInps["getAliquotaInps"], tasseLavoratoreIrpef: TasseIrpef["getAliquotaIrpef"]) {
 
-  constructor(redditoAnnuoLordo: number, tasseLavoratoreInps: TasseInps["getAliquotaInps"], tasseLavoratoreIrpef: TasseIrpef["getAliquotaIrpef"]) {
+  constructor(redditoAnnuoLordo: number, tasseLavoratoreInps: TasseInps, tasseLavoratoreIrpef: TasseIrpef) {
     // this.codredd = codredd;
     this.redditoAnnuoLordo = redditoAnnuoLordo;
     this.tasseLavoratoreInps = tasseLavoratoreInps;
@@ -53,12 +53,12 @@ class Lavoratore {
   }
 
   getTasseInps() {
-    let redditoTassatoInps = this.getRedditoAnnuoLordo * <number>(<unknown>this.tasseLavoratoreInps);
+    let redditoTassatoInps = this.getRedditoAnnuoLordo * this.tasseLavoratoreInps.getAliquotaInps;
     return redditoTassatoInps;
   }
 
   getTasseIrpef() {
-    let redditoTassatoIrpef = this.getRedditoAnnuoLordo * <number>(<unknown>this.tasseLavoratoreIrpef);
+    let redditoTassatoIrpef = this.getRedditoAnnuoLordo * this.tasseLavoratoreIrpef.getAliquotaIrpef;
     return redditoTassatoIrpef;
   }
 
@@ -67,46 +67,13 @@ class Lavoratore {
     return redditoAnnuoNetto;
   }
 }
+let tasseLavoratoreInps = new TasseInps(aliquoteInps.aliquotaCassa);
+let tasseLavoratoreIrpef = new TasseIrpef(aliquoteIrpef.aliquota1);
+let lavoratore = new Lavoratore(10000, tasseLavoratoreInps, tasseLavoratoreIrpef);
 
-let lavoratore = new Lavoratore(10000, aliquoteInps.aliquotaCassa, aliquoteIrpef.aliquota1);
+let lavoratoreLordo = lavoratore.getRedditoAnnuoLordo;
+console.log(lavoratoreLordo);
 
-//   class Lavoratore {
-//     //   private codredd: number;
-//     private redditoAnnuoLordo: number;
-//     private tasseLavoratoreInps = new TasseInps();
-//     private tasseLavoratoreIrpef= new TasseIrpef();
-
-//     //   constructor(redditoAnnuoLordo: number, tasseLavoratoreInps: TasseInps["getAliquotaInps"], tasseLavoratoreIrpef: TasseIrpef["getAliquotaIrpef"]) {
-
-//     constructor(redditoAnnuoLordo: number, tasseLavoratoreInps: TasseInps["getAliquotaInps"], tasseLavoratoreIrpef: TasseIrpef["getAliquotaIrpef"]) {
-//       // this.codredd = codredd;
-//       this.redditoAnnuoLordo = redditoAnnuoLordo;
-//       this.tasseLavoratoreInps = tasseLavoratoreInps;
-//       this.tasseLavoratoreIrpef = tasseLavoratoreIrpef;
-//     }
-
-//     public get getRedditoAnnuoLordo() {
-//       return this.redditoAnnuoLordo;
-//     }
-
-//     public set setRedditoAnnuoLordo(reddito: number) {
-//       this.redditoAnnuoLordo = reddito;
-//     }
-
-//     getTasseInps() {
-//       let redditoTassatoInps = this.getRedditoAnnuoLordo * <number>(<unknown>this.tasseLavoratoreInps);
-//       return redditoTassatoInps;
-//     }
-
-//     getTasseIrpef() {
-//       let redditoTassatoIrpef = this.getRedditoAnnuoLordo * <number>(<unknown>this.tasseLavoratoreIrpef);
-//       return redditoTassatoIrpef;
-//     }
-
-//     getRedditoAnnuoNetto(redditoAnnuoLordo: number, redditoTassatoInps: number, redditoTassatoIrpef: number) {
-//       let redditoAnnuoNetto = redditoAnnuoLordo - redditoTassatoInps - redditoTassatoIrpef;
-//       return redditoAnnuoNetto;
-//     }
-//   }
-
-//   let lavoratore = new Lavoratore(10000, TasseInps., aliquoteIrpef.aliquota1);
+console.log(lavoratore.getTasseInps);
+console.log(lavoratore.getTasseIrpef);
+console.log(lavoratore.getRedditoAnnuoNetto);
