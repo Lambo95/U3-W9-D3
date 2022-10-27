@@ -74,6 +74,6 @@ let lavoratore = new Lavoratore(10000, tasseLavoratoreInps, tasseLavoratoreIrpef
 let lavoratoreLordo = lavoratore.getRedditoAnnuoLordo;
 console.log(lavoratoreLordo);
 
-console.log(lavoratore.getTasseInps);
-console.log(lavoratore.getTasseIrpef);
-console.log(lavoratore.getRedditoAnnuoNetto);
+console.log(lavoratore.getTasseInps());
+console.log(lavoratore.getTasseIrpef());
+console.log(lavoratore.getRedditoAnnuoNetto(10000, lavoratore.getTasseInps(), lavoratore.getTasseIrpef()));
